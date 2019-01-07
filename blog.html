@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+		<title>D25M31PMF8JC Blog</title>
+		<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono|Press+Start+2P|Share+Tech+Mono" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="blog.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/color/jquery.color-2.1.2.js"></script>
+		<script>
+			var loren = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac lacinia risus. Ut quis finibus tellus, ac semper nibh. Nulla aliquet auctor cursus. Suspendisse tempor maximus erat at pharetra. Nulla facilisi. Proin tempor lacus sed orci faucibus, ac semper eros imperdiet. Vestibulum congue eros ligula, et placerat ligula dictum in. Sed sollicitudin purus consequat leo condimentum mollis. Aliquam faucibus neque eu metus venenatis, fermentum euismod ante porttitor. Nunc nulla nibh, dignissim faucibus gravida et, ultrices et ante."
+			var randomLength = 0;
+			var caption = " ";
+			var url1 = "http://stenson.xyz/leonard/blog/imgCount.txt";
+			var url2 = "http://stenson.xyz/leonard/blog/timeStamps.txt";
+
+			var txtFile1 = new XMLHttpRequest();
+			var txtFile2 = new XMLHttpRequest();
+    		txtFile1.open("GET",url1,true);
+    		txtFile1.send();
+    		txtFile2.open("GET",url2,true);
+    		txtFile2.send();
+    		var count = 0;
+    		var stamps = "";
+    		var stampArray = "";
+    		txtFile2.onreadystatechange = function() {
+        	if (txtFile1.readyState== 4 && txtFile1.status == 200) {
+            	count = Number(txtFile1.responseText);
+        	}
+        	if (txtFile2.readyState== 4 && txtFile2.status == 200) {
+            	stamps = txtFile2.responseText;
+            	stampArray = stamps.split("\n");
+        	for (i = count; i >= 1; i--) {
+        		var stampDiv = document.createElement("div");
+        		stampDiv.setAttribute("class", "stamps");
+        		var timeStamp = document.createElement("P");
+        		var date = stampArray[count - i];
+				var t1 = document.createTextNode(date); 
+				timeStamp.appendChild(t1); 
+
+        		var new_div = document.createElement("div");
+        		new_div.setAttribute("class", "pics");
+        		var img = document.createElement("img");
+        		img.src = "http://stenson.xyz/leonard/blog/pictures/" + i.toString() + ".png";
+
+        		randomLength = Math.floor(Math.random() * loren.length)
+        		var capDiv = document.createElement("div");
+        		capDiv.setAttribute("class", "caps");
+        		caption = loren.substring(0,randomLength)
+        		if (caption.charAt(caption.length-1) != ".") {
+        			caption = caption + "."
+        		}
+        		caption = "[" + caption + "]"; 
+        		var cap = document.createElement("P");
+        		var t2 = document.createTextNode(caption); 
+        		cap.appendChild(t2);
+
+				stampDiv.appendChild(timeStamp);
+				new_div.appendChild(img); 
+				capDiv.appendChild(cap);
+   		
+				document.body.appendChild(stampDiv);                            
+    			document.body.appendChild(new_div);
+    			document.body.appendChild(capDiv);
+			}
+		}
+     	}
+
+     </script>
+
+	</head>
+
+	<body>  
+
+			<div class='console-container'><span id='text'></span><div class='console-underscore' id='console'>&#95;</div></div>   
+
+	</body>
+	<script> 
+		  words = 'blog';
+		  colors = 'rgb(0, 143, 17)';
+		  var visible = true;
+		  var con = document.getElementById('console');
+		  var letterCount = 1;
+		  var x = 1;
+		  var waiting = false;
+		  var target = document.getElementById('text');
+		  target.setAttribute('style', 'color:' + colors);
+		  window.setInterval(function() {
+		    if (letterCount === 0 && waiting === false) {
+		      waiting = true;
+		      target.innerHTML = words.substring(0, letterCount);
+		      window.setTimeout(function() {
+		        x = 1;
+		        target.setAttribute('style', 'color:' + colors);
+		        letterCount += x;
+		        waiting = false;
+		      }, 1000)
+		    } else if (letterCount === words.length + 1 && waiting === false) {
+		      waiting = true;
+		      window.setTimeout(function() {
+		        x = -1;
+		        letterCount += x;
+		      }, 1000)
+		    } else if (waiting === false) {
+		      target.innerHTML = words.substring(0, letterCount);
+		      letterCount += x;
+		    }
+		  }, 600)
+		  window.setInterval(function() {
+		    if (visible === true) {
+		      con.className = 'console-underscore hidden';
+		      visible = false;
+
+		    } else {
+		      con.className = 'console-underscore';
+		      visible = true;
+		    }
+		  }, 500)
+	</script>
+</html>
